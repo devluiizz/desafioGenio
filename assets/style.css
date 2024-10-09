@@ -24,6 +24,11 @@ body {
   transition: all 0.3s ease;
 }
 
+img {
+  max-width: 100%;
+  display: block;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -32,9 +37,11 @@ body {
 /* Metas */
 
 .header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--blue);
   padding: 32px 0;
-  text-align: center;
 }
 
 .exibir-pontuacao {
@@ -148,4 +155,44 @@ body {
 .botao:hover {
   background-color: var(--purple-dark);
   transform: translateY(-2px);
+}
+
+.config-meta {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+
+.conteudo-config-meta {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+#entradaMeta {
+  height: 36px;
+  padding: 12px 0 12px 6px;
+  outline: none;
+  border: 1px solid var(--text);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  margin-top: 20px;
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 20px;
+  }
+  .container {
+    width: 100%;
+    padding: 10px;
+  }
 }

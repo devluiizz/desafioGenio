@@ -15,6 +15,17 @@ const atividades = [
       },
     ],
   },
+  {
+    tipo: "questionario",
+    titulo: "Quiz de História",
+    conteudo: [
+      {
+        pergunta: "Em que ano o Brasil foi descoberto?",
+        opcoes: ["1499", "1500", "1501", "1502"],
+        respostaCorreta: 1,
+      },
+    ],
+  },
 ];
 
 function mostrarRetorno(mensagem, sucesso) {
@@ -46,15 +57,15 @@ function carregarQuestionario(pergunta) {
   elementoConteudo.innerHTML = `
             <p>${pergunta.pergunta}</p>
             <div class="opcoes">
-               ${pergunta.opcoes
-                 .map(
-                   (opcao, indice) => `
-                    <button class="botao" onclick="verificarResposta(${indice})">${opcao}</button>
-                  `
-                 )
-                 .join("")}
+            ${pergunta.opcoes
+              .map(
+                (opcao, indice) => `
+                <button class="botao" onclick="verificarResposta(${indice})">${opcao}</button>
+                `
+              )
+              .join("")}
               </div>
-        `;
+              `;
 }
 
 function atualizarPontuacao(pontos) {
@@ -79,6 +90,21 @@ function verificarResposta(resposta) {
     setTimeout(proximaAtividade, 1000);
   } else {
     mostrarRetorno("Tente novamente", false);
+  }
+}
+
+function proximaAtividade() {
+  atividadeAtual = (atividadeAtual + 1) % atividades.length;
+  carregarAtividade();
+}
+
+function definirMeta() {
+  const meta = parseInt(document.getElementById("entradaMeta").value);
+  if (meta >= 100) {
+    pontuacaoMeta = meta;
+    document.getElementById("pontuacaoMeta").textContent = meta;
+    document.getElementById("configMeta").style.display = "none";
+    carregarAtividade();
   }
 }
 
