@@ -2,6 +2,12 @@ let atividadeAtual = 0;
 let pontuacaoTotal = 0;
 let dificuldade = 1;
 let pontuacaoMeta = 500;
+let estadoJogoMemoria = {
+  cartasViradas: [],
+  paresCombinados: 0,
+  totalPares: 0,
+  podeVirar: true,
+};
 
 const atividades = [
   {
@@ -26,6 +32,11 @@ const atividades = [
       },
     ],
   },
+  {
+    tipo: "memoria",
+    titulo: "Jogo da Memória",
+    conteudo: ["👾", "🎠", "🍫", "🛹", "✨", "😺"],
+  },
 ];
 
 function mostrarRetorno(mensagem, sucesso) {
@@ -49,6 +60,9 @@ function carregarAtividade() {
     case "questionario":
       carregarQuestionario(atividade.conteudo[0]);
       break;
+    case "memoria":
+      carregarJogoMemoria(atividade.conteudo);
+      break;
   }
 }
 
@@ -66,6 +80,79 @@ function carregarQuestionario(pergunta) {
               .join("")}
               </div>
               `;
+}
+
+function carregarJogoMemoria(itens) {
+  const elementoConteudo = document.getElementById("conteudoAtividade");
+  const itensEmbaralhados = [...itens, ...itens].sort(
+    () => Math.random() - 0.5
+  );
+
+  estadoJogoMemoria = {
+    cartasViradas: [],
+    paresCombinados: 0,
+    totalPares: itens.length,
+    podeVirar: true,
+  };
+
+  elementoConteudo.innerHTML = `
+            <div class="jogo-memoria">
+                ${itensEmbaralhados
+                  .map(
+                    (item, indice) => `
+                      <div class= "carta-memoria" onclick="virarCarta(this, '${item}')" data-index="${indice}">
+                          ${item}
+                        </div>
+                      `
+                  )
+                  .join("")}
+                    </div>
+                `;
+}
+
+function virarCarta(carta, item) {
+  if (
+    !estadoJogoMemoria.podeVirar ||
+    carta.classList.contains("virada") ||
+    carta.classList.contains("combinada")
+  ) {
+    return;
+  }
+
+  carta.classList.add("virada");
+  estadoJogoMemoria.cartasViradas.push(carta);
+
+  if (estadoJogoMemoria.cartasViradas.length === 2) {
+    estadoJogoMemoria.podeVirar = false;
+    verificarCombinacao();
+  }
+}
+
+function verificarCombinacao() {
+  const [carta1, carta2] = estadoJogoMemoria.cartasViradas;
+  const combinacao = carta1.textContent.trim() === carta2.textContent.trim();
+
+  if (combinacao) {
+    carta1.classList.add("combinada");
+    carta2.classList.add("combinada");
+    estadoJogoMemoria.paresCombinados++;
+    atualizarPontuacao(25);
+    mostrarRetorno("+25 pontos", true);
+
+    if (estadoJogoMemoria.paresCombinados === estadoJogoMemoria.totalPares) {
+      setTimeout(proximaAtividade, 1000);
+    }
+  } else {
+    setTimeout(() => {
+      carta1.classList.remove("virada");
+      carta2.classList.remove("virada");
+    }, 1000);
+  }
+
+  estadoJogoMemoria.cartasViradas = [];
+  setTimeout(() => {
+    estadoJogoMemoria.podeVirar = true;
+  }, 1000);
 }
 
 function atualizarPontuacao(pontos) {
