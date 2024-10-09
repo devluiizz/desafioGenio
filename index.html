@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/style.css">
+  <title>Desafio Gênio</title>
+</head>
+
+<body>
+
+  <div id="configmeta" class="config-meta">
+    <div class="conteudo-config-meta">
+      <h2>Defina sua meta de pontos</h2>
+      <p>Quantos pontos você quer atingir?</p>
+      <input type="number" id="entradaMeta" min="100" step="50" value="500">
+      <button class="botao" onclick="definirMeta()">Começar</button>
+    </div>
+  </div>
+
+  <header class="header">
+    <img src="./assets/img/logo.svg" alt="Logo Desafio Gênio">
+  </header>
+
+  <div class="container">
+    <div class="exibir-pontuacao">
+      Pontuação Total: <span id="pontuacaoTotal">0</span>
+    </div>
+
+    <div class="container-atividade" id="containerAtividade">
+      <h2 id="tituloAtividade">Atividade</h2>
+      <div id="conteudoAtividade"></div>
+    </div>
+    <div id="retorno" class="retorno"></div>
+
+    <div class="container-estatisticas">
+      <h2>Estatísticas</h2>
+      <div class="grade-estatisticas">
+        <div class="cartao-estatistica">
+          <h3>Progresso</h3>
+          <p><span id="pontuacaoAtual">0</span> / <span id="pontuacaoMeta">500</span></p>
+          <div id="trofeu" class="trofeu">🏆</div>
+        </div>
+        <div class="cartao-estatistica">
+          <h3>Melhor Tempo (Digitação)</h3>
+          <p>Atual: <span id="tempoDigitacaoAtual">-</span></p>
+          <p>Recorde: <span id="melhorTempoDigitacao">-</span></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="./assets/script.js"></script>
+
+</body>
+
+</html>
