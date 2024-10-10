@@ -221,6 +221,32 @@ img {
   cursor: default;
 }
 
+.palavras-embaralhadas {
+  text-align: center;
+  padding: 20px;
+}
+
+.palavras-embaralhadas p {
+  margin-bottom: 10px;
+}
+
+.palavras-embaralhadas input,
+button {
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #111;
+}
+
+.palavras-embaralhadas button {
+  cursor: pointer;
+  background-color: var(--purple);
+}
+
+.palavras-embaralhadas button:hover {
+  background-color: var(--purple-dark);
+  transition: 0.4s;
+}
+
 @media (max-width: 480px) {
   .header {
     padding: 20px;

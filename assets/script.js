@@ -37,6 +37,16 @@ const atividades = [
     titulo: "Jogo da Memória",
     conteudo: ["👾", "🎠", "🍫", "🛹", "✨", "😺"],
   },
+  {
+    tipo: "palavrasEmbaralhadas",
+    titulo: "Palavras Embaralhadas",
+    conteudo: [
+      {
+        palavra: "BUDAPESTE",
+        dica: "É uma capital europeia cortada por um famoso rio, e seu nome começa com 'B'.",
+      },
+    ],
+  },
 ];
 
 function mostrarRetorno(mensagem, sucesso) {
@@ -62,6 +72,9 @@ function carregarAtividade() {
       break;
     case "memoria":
       carregarJogoMemoria(atividade.conteudo);
+      break;
+    case "palavrasEmbaralhadas":
+      carregarPalavrasEmbaralhadas(atividade.conteudo[0]);
       break;
   }
 }
@@ -153,6 +166,35 @@ function verificarCombinacao() {
   setTimeout(() => {
     estadoJogoMemoria.podeVirar = true;
   }, 1000);
+}
+
+function carregarPalavrasEmbaralhadas(dadosPalavra) {
+  const palavraEmbaralhada = dadosPalavra.palavra
+    .split("")
+    .sort(() => Math.random() - 0.5)
+    .join("");
+  const elementoConteudo = document.getElementById("conteudoAtividade");
+  elementoConteudo.innerHTML = `
+            <div class="palavras-embaralhadas">
+                <h3>Dica: ${dadosPalavra.dica}</h3>
+                <p>Palavra embaralhada: ${palavraEmbaralhada}</p>
+                <input type="text" id="tentativaPalavra" placeholder="Digite sua resposta">
+                <button onclick="verificarPalavraEmbaralhada('${dadosPalavra.palavra}')">Verificar</button>
+            </div>
+          `;
+}
+
+function verificarPalavraEmbaralhada(palavraCorreta) {
+  const tentativa = document
+    .getElementById("tentativaPalavra")
+    .value.toUpperCase();
+  if (tentativa === palavraCorreta) {
+    atualizarPontuacao(120);
+    mostrarRetorno("+120 pontos", true);
+    setTimeout(proximaAtividade, 1000);
+  } else {
+    mostrarRetorno("Tente novamente", false);
+  }
 }
 
 function atualizarPontuacao(pontos) {
