@@ -10,6 +10,7 @@ let estadoJogoMemoria = {
 };
 let melhorTempoDigitacao = Infinity;
 let inicioTempoDigitacao;
+let botaoClicado = false;
 
 const atividades = [
   {
@@ -326,6 +327,8 @@ function atualizarPontuacao(pontos) {
 }
 
 function verificarResposta(resposta) {
+  if (botaoClicado) return;
+  botaoClicado = true;
   const pergunta = atividades[atividadeAtual].conteudo[0];
   if (resposta === pergunta.respostaCorreta) {
     atualizarPontuacao(120);
@@ -333,11 +336,13 @@ function verificarResposta(resposta) {
     setTimeout(proximaAtividade, 1000);
   } else {
     mostrarRetorno("Tente novamente", false);
+    botaoClicado = false;
   }
 }
 
 function proximaAtividade() {
   atividadeAtual = (atividadeAtual + 1) % atividades.length;
+  botaoClicado = false;
   carregarAtividade();
 }
 

@@ -194,6 +194,7 @@ img {
   gap: 10px;
   max-width: 600px;
   margin: 40px auto;
+  user-select: none;
 }
 
 .carta-memoria {
@@ -207,6 +208,7 @@ img {
   color: transparent;
   cursor: pointer;
   transition: all 0.3s ease;
+  user-select: none;
 }
 
 .carta-memoria.virada {
