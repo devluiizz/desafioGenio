@@ -47,6 +47,14 @@ const atividades = [
       },
     ],
   },
+  {
+    tipo: "jogoMatematica",
+    titulo: "Desafio Matemático",
+    conteudo: {
+      dificuldade: 1,
+      operacoes: ["+", "-", "*"],
+    },
+  },
 ];
 
 function mostrarRetorno(mensagem, sucesso) {
@@ -75,6 +83,9 @@ function carregarAtividade() {
       break;
     case "palavrasEmbaralhadas":
       carregarPalavrasEmbaralhadas(atividade.conteudo[0]);
+      break;
+    case "jogoMatematica":
+      carregarJogoMatematica(atividade.conteudo);
       break;
   }
 }
@@ -194,6 +205,51 @@ function verificarPalavraEmbaralhada(palavraCorreta) {
     setTimeout(proximaAtividade, 1000);
   } else {
     mostrarRetorno("Tente novamente", false);
+  }
+}
+
+function carregarJogoMatematica(configMatematica) {
+  const num1 = Math.floor(Math.random() * 10) + 1;
+  const num2 = Math.floor(Math.random() * 10) + 1;
+  const operacao =
+    configMatematica.operacoes[
+      Math.floor(Math.random() * configMatematica.operacoes.length)
+    ];
+
+  const elementoConteudo = document.getElementById("conteudoAtividade");
+  elementoConteudo.innerHTML = `
+          <div class="jogo-matematica">
+              <h3>${num1} ${operacao} ${num2} = ?</h3>
+              <input type="number" id="respostaMatematica">
+              <button onclick="verificarRespostaMatematica(${num1}, ${num2}, '${operacao}')">Verificar</button>
+          </div>
+        `;
+}
+
+function verificarRespostaMatematica(num1, num2, operacao) {
+  const respostaUsuario = parseInt(
+    document.getElementById("respostaMatematica").value
+  );
+  let respostaCorreta;
+
+  switch (operacao) {
+    case "+":
+      respostaCorreta = num1 + num2;
+      break;
+    case "-":
+      respostaCorreta = num1 - num2;
+      break;
+    case "*":
+      respostaCorreta = num1 * num2;
+      break;
+  }
+
+  if (respostaUsuario === respostaCorreta) {
+    atualizarPontuacao(100);
+    mostrarRetorno("+100 pontos", true);
+    setTimeout(proximaAtividade, 1000);
+  } else {
+    mostrarRetorno("Tente Novamente", false);
   }
 }
 
