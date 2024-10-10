@@ -229,7 +229,8 @@ img {
 }
 
 .palavras-embaralhadas p,
-.jogo-matematica h3 {
+.jogo-matematica h3,
+.jogo-digitacao p {
   margin-bottom: 10px;
 }
 
@@ -243,15 +244,33 @@ button {
 }
 
 .palavras-embaralhadas button,
-.jogo-matematica button {
+.jogo-matematica button,
+.jogo-digitacao button {
   cursor: pointer;
   background-color: var(--purple);
 }
 
 .palavras-embaralhadas button:hover,
-.jogo-matematica button:hover {
+.jogo-matematica button:hover,
+.jogo-digitacao button:hover {
   background-color: var(--purple-dark);
   transition: 0.4s;
+}
+
+.jogo-digitacao-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.jogo-digitacao-flex textarea {
+  padding: 6px;
+  border-radius: 6px;
+}
+
+.jogo-digitacao-flex button {
+  padding: 13px;
 }
 
 @media (max-width: 480px) {

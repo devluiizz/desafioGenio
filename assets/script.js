@@ -8,6 +8,8 @@ let estadoJogoMemoria = {
   totalPares: 0,
   podeVirar: true,
 };
+let melhorTempoDigitacao = Infinity;
+let inicioTempoDigitacao;
 
 const atividades = [
   {
@@ -55,6 +57,11 @@ const atividades = [
       operacoes: ["+", "-", "*"],
     },
   },
+  {
+    tipo: "jogoDigitacao",
+    titulo: "Digitação Rápida",
+    conteudo: ["A filha da xuxa se chama sasha"],
+  },
 ];
 
 function mostrarRetorno(mensagem, sucesso) {
@@ -86,6 +93,9 @@ function carregarAtividade() {
       break;
     case "jogoMatematica":
       carregarJogoMatematica(atividade.conteudo);
+      break;
+    case "jogoDigitacao":
+      carregarJogoDigitacao(atividade.conteudo[0]);
       break;
   }
 }
@@ -250,6 +260,54 @@ function verificarRespostaMatematica(num1, num2, operacao) {
     setTimeout(proximaAtividade, 1000);
   } else {
     mostrarRetorno("Tente Novamente", false);
+  }
+}
+
+function carregarJogoDigitacao(texto) {
+  const elementoConteudo = document.getElementById("conteudoAtividade");
+  elementoConteudo.innerHTML = `
+            <div class="jogo-digitacao">
+                <p>Digite o texto abaixo:</p>
+                <p>${texto}</p>
+                <div class="jogo-digitacao-flex">
+                <textarea id="entradaDigitacao" rows="3" oninput="iniciarTempoDigitacao()"></textarea>
+                <button onclick="verificarDigitacao('${texto}')">Verificar</button>
+                </div>
+            </div>
+        `;
+}
+
+function verificarDigitacao(textoCorreto) {
+  const textoUsuario = document.getElementById("entradaDigitacao").value.trim();
+  if (textoUsuario === textoCorreto) {
+    const tempoFinal = new Date();
+    const tempoGasto = (tempoFinal - inicioTempoDigitacao) / 1000;
+
+    document.getElementById("tempoDigitacaoAtual").textContent =
+      formatarTempo(tempoGasto);
+
+    if (tempoGasto < melhorTempoDigitacao) {
+      melhorTempoDigitacao = tempoGasto;
+      document.getElementById("melhorTempoDigitacao").textContent =
+        formatarTempo(tempoGasto);
+    }
+
+    atualizarPontuacao(100);
+    mostrarRetorno(`+100 pontos | Tempo: ${formatarTempo(tempoGasto)}`, true);
+    inicioTempoDigitacao = null;
+    setTimeout(proximaAtividade, 1500);
+  } else {
+    mostrarRetorno("Tente novamente", false);
+  }
+}
+
+function formatarTempo(segundos) {
+  return `${segundos.toFixed(2)}s`;
+}
+
+function iniciarTempoDigitacao() {
+  if (!inicioTempoDigitacao) {
+    inicioTempoDigitacao = new Date();
   }
 }
 
